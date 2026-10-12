@@ -1,0 +1,31 @@
+# Dependencies
+**/node_modules/
+
+# Frontend build output and Vite cache
+/frontend/dist/
+/frontend/.vite/
+
+# Python bytecode, environments, and tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Generated backend telemetry
+/backend/telemetry/
+
+# Operating system files
+.DS_Store
+Thumbs.db
