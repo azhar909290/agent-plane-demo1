@@ -5,32 +5,6 @@ function rng(seed = 42) {
 }
 
 const AGENTS = [
-  ['Format-Agent', 'A basic agent that cleans up markdown text.'],
-  ['Ping-Agent', 'A lightweight test agent that confirms CI/CD workflow build success.'],
-  ['Test-Orchestrator', 'Analyzes source files and automatically drafts comprehensive unit test suites covering happy paths, edge cases, and interactions using mocks and stubs. Optimizes test structure, naming, and setup to improve reliability and maintainability across the codebase.'],
-  ['Context-Architect', 'An agent that helps plan and execute multi-file changes by identifying relevant context and dependencies.'],
-  ['Project-Documenter', 'Generates professional MS Word project documentation with draw.io architecture diagrams and embedded PNG images. Automatically discovers any project\'s technology stack, architecture, and code structure. Produces Markdown, draw.io diagrams, PNG exports, and .docx output.'],
-  ['Agile-Builder', 'Your SDLC planning assistant for user stories and acceptance criteria.'],
-  ['Code-Reviewer', 'An SDLC development assistant that reviews code for quality and vulnerabilities.'],
-  ['QA-Architect', 'Analyzes code logic complexity and builds comprehensive test plans.'],
-  ['API-Documenter', 'Extracts endpoints from raw source code and writes API documentation.'],
-  ['UX-Wordsmith', 'Reviews UI code to improve the copywriting of buttons, alerts, and placeholders.'],
-  ['Code-Smell-Scanner', 'Scans code for hardcoded secrets, TODOs, and magic numbers.'],
-  ['Codebase-Testcase-Agent', 'Generates detailed, codebase-specific test cases by analyzing provided source code, existing tests, and requirements, focusing on edge cases, coverage gaps, and clear test structure.'],
-  ['Syntax-Check-Agent', 'Identifies and explains syntax errors in code snippets, suggesting precise corrections while preserving the original intent. Supports multiple languages and highlights exact error locations for quick fixes.'],
-  ['Logic-Review-Agent', 'Analyzes code to identify the logical flaws, edge-case bugs, and inconsistent behavior before execution or testing.'],
-  ['Api-Response-Tracker', 'Tracks, audits and summarizes API responses used in code.'],
-  ['System-Discovery-Agent', 'Identifies and describes the major systems and subsystems present in a codebase based on code structure, naming, and dependencies. Helps developers quickly understand architectural building blocks and how they relate to each other.'],
-  ['Code-Refactor-Agent', 'Automates code refactoring to reduce complexity, remove duplication, and improve readability while preserving behavior. Produces clear, modern, and maintainable code with concise explanations of key changes.'],
-  ['Error-Diagnosis-Agent', 'Analyzes stack traces and error logs to identify likely root causes and propose practical fixes, including code changes and configuration adjustments. Helps developers quickly triage failures and plan next debugging steps.'],
-  ['PR-Review-Agent', 'Reviews pull request diffs for logic bugs, anti-patterns, and security vulnerabilities, providing clear, actionable feedback. Focuses on risk, code quality, and maintainability while staying tightly scoped to the changes in the diff.'],
-  ['Security-Auditor', 'Reviews code diffs and pull requests specifically for OWASP Top 10 issues, insecure dependencies, and secret leaks, providing precise, actionable remediation guidance. Focuses strictly on security concerns without general code review or style feedback.'],
-  ['Production-Issue-Analyzer', 'Analyzes code and surrounding context to identify likely production issues, then produces a clear, prioritized risk and issue report with actionable recommendations.'],
-  ['Prod-Error-Diagnostics-Agent', 'Analyzes production error logs and traces to identify likely root causes and propose concrete bug fixes. Helps turn noisy runtime failures into clear, prioritized debugging actions with suggested code-level changes.'],
-  ['Architecture-Design-Agent', 'Designs coherent database schemas, API contracts, and high-level system architectures starting from functional specifications, ensuring alignment between data model, services, and integration points.'],
-  ['Release-Docs-Agent', 'Automatically generates and maintains up-to-date release notes, technical changelogs, and API/developer documentation by scanning merged commits, pull requests, and closed issues across deployment and maintenance stages.'],
-];
-const TELEMETRY_AGENTS = [
   ['code-reviewer', 'Reviews pull requests for quality, bugs and style'],
   ['test-orchestrator', 'Generates unit and integration tests from source'],
   ['security-auditor', 'Scans code for OWASP and secrets issues'],
@@ -62,7 +36,7 @@ export function buildMock() {
   const pickModel = () => { let x = r(), a = 0; for (const m of MODELS) { a += m.w; if (x <= a) return m; } return MODELS[0]; };
   const now = new Date();
 
-  const telemetryAgents = TELEMETRY_AGENTS.map(([name, desc], i) => {
+  const agents = AGENTS.map(([name, desc], i) => {
     const popularity = 1.4 - i * 0.11;
     const daily = {};
     let total = 0;
@@ -92,17 +66,10 @@ export function buildMock() {
     };
   });
 
-  const agents = AGENTS.map(([name, description]) => ({
-    agent_id: name.toLowerCase(), agent_name: name, description, version: '1.0.0',
-    plugin_calls: 0, tokens_est: 0, cost_usd: 0, usage_status: 'No usage',
-    total_requests: 0, total_users: 0, last_called: null, daily_stats: {},
-    user_counts: { total_users: 0, users: {} },
-  }));
-
   // telemetry for last 30 days
   const events = [];
   for (let i = 0; i < 2600; i++) {
-    const a = telemetryAgents[Math.min(telemetryAgents.length - 1, Math.floor(Math.pow(r(), 1.6) * telemetryAgents.length))];
+    const a = agents[Math.min(agents.length - 1, Math.floor(Math.pow(r(), 1.6) * agents.length))];
     const m = pickModel();
     const ts = new Date(now - Math.pow(r(), 1.2) * 30 * 864e5);
     const hour = ts.getHours();
