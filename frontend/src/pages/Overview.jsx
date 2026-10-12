@@ -40,7 +40,7 @@ export default function Overview({ data, openAgent, goto }) {
 
       <div className="grid kpis">
         <Kpi label={`Requests (${range})`} value={m.cur} delta={m.delta} icon={<FiZap />} spark={m.s.slice(-21).map(x => x.value)} />
-        <Kpi label="Active users" value={18} icon={<FiUsers />} color="var(--green)" sub={`${m.users.filter(u => u.persona === 'Power user').length} power users`} />
+        <Kpi label="Active users" value={25} icon={<FiUsers />} color="var(--green)" sub={`${m.users.filter(u => u.persona === 'Power user').length} power users`} />
         <Kpi label="Agent adoption" value={17 / 24 * 100} format={v => v.toFixed(0) + '%'} icon={<FiCpu />} color="var(--purple)" sub="17/24 agents used" />
         <Kpi label="Success rate" value={m.t.successRate} format={v => v.toFixed(1) + '%'} icon={<FiTrendingUp />} color="var(--teal)" sub={`${fmt(m.t.calls)} traced calls`} />
         <Kpi label="Hours saved (est.)" value={m.hours} icon={<FiClock />} color="var(--orange)" sub={`${MINUTES_SAVED_PER_REQUEST} min / request`} />
